@@ -20,6 +20,11 @@ class Ventana(QMainWindow):
 		self.recalc_button.clicked.connect(self.reestart)
 		self.del_button.clicked.connect(self.borrar)
 		self.add_button.clicked.connect(self.add_number)
+		self.save_button.clicked.connect(self.savefile)
+		self.umbral_sli.valueChanged.connect(self.slider_actus)
+		self.erosion_sli.valueChanged.connect(self.slider_actus)
+		self.perimetro_sli.valueChanged.connect(self.slider_actus)
+		self.slider_actus()
 		#Buscar Imagen con explorer    
 		
 	#Abrir imagen
@@ -29,6 +34,19 @@ class Ventana(QMainWindow):
 		
 		return image_name
 		
+	def slider_actus(self):
+		umbra_val = self.umbral_sli.value()
+		perimetro_val = self.perimetro_sli.value()
+		erosion_val = self.erosion_sli.value()
+		self.erosion_label.setText(str(erosion_val))
+		self.umbral_label.setText(str(umbra_val))
+		self.perimetro_label.setText(str(perimetro_val))
+		
+	def savefile(self):
+		nombre_fichero = QFileDialog.getSaveFileName(self, "Guardar fichero","img_final.png")
+		img_final = cv2.imread("img_final.png",1)
+		
+		cv2.imwrite(nombre_fichero[0],img_final)
 	def reestart(self):
 		if self.rutaimg.text() != "":
 			ruta_image = self.rutaimg.text()
